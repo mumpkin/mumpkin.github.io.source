@@ -1,0 +1,36 @@
+name: Build and Deploy Astro
+
+on:
+  release:
+    types: [published]  # déclenché à chaque release
+  workflow_dispatch:    # ou manuellement
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+
+      - name: Deploy to monnom.github.io
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          external_repository: mumpkin/mumpkin.github.io
+          publish_branch: main   # ou 'gh-pages' si ton site est sur cette branche
+          publish_dir: ./dist
+          personal_token: ${{ secrets.DEPLOY_TOKEN }}
+          user_name: github-actions[bot]
+          user_email: github-actions[bot]@users.noreply.github.com
+
