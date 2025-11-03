@@ -2,8 +2,8 @@ name: Build and Deploy Astro
 
 on:
   release:
-    types: [published]  # déclenché à chaque release
-  workflow_dispatch:    # ou manuellement
+    types: [published]
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -24,11 +24,11 @@ jobs:
       - name: Build site
         run: npm run build
 
-      - name: Deploy to monnom.github.io
+      - name: Deploy to mumpkin.github.io
         uses: peaceiris/actions-gh-pages@v3
         with:
           external_repository: mumpkin/mumpkin.github.io
-          publish_branch: main   # ou 'gh-pages' si ton site est sur cette branche
+          publish_branch: main
           publish_dir: ./dist
           personal_token: ${{ secrets.DEPLOY_TOKEN }}
           user_name: github-actions[bot]
